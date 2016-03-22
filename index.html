@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ndfreelance</title>
+    <!--Handlebars-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <!--jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!--Ekko Lightbox-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.js"></script>
+  </head>
+  <body>
+
+    <div class="header">
+      <div class="innerheader">
+        <div class="home" onclick="displayHome()">Home</div>
+        <div class="portfolio" onclick="displayPortfolio()">Portfolio</div>
+        <div class="logo" onclick="displayDefault()"></div>
+        <div class="skill" onclick="displaySkill()">My Skills</div>
+        <div class="contact" onclick="displayContact()">Contact</div>
+    </div>
+    </div>
+    <div class="main">
+    <div class="content"></div>
+    </div>
+
+  </body>
+</html>
+
+<script id="t-home" type="text/x-handlebars-template">
+  <h1 style="color: black; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
+  {{#each areas}}
+  <p>
+    <h4 style="color: black; margin: 10px 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h4>
+    <ul style="color: black; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
+      {{#each skills}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </p>
+  {{/each}}
+</script>
+
+<script id="t-portfolio" type="text/x-handlebars-template">
+  <h1 style="color: black; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
+  <div style="width: 816px; ">
+    {{#each images}}
+    <div class="portfolio-img" data-toggle="lightbox" data-remote="portfolio/{{this}}"
+      onclick="toggleLightbox(this)" style="background-image: url('portfolio/{{this}}')"></div>
+    {{/each}}
+  </div>
+</script>
+
+<script id="t-default" type="text/x-handlebars-template">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" style=" width: 100%; height:500px; margin: auto;">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      {{#each slides}}
+      <li data-target="#myCarousel" data-slide-to="{{@index}}" class="{{active}}"></li>
+      {{/each}}
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox" >
+      {{#each slides}}
+      <div class="item {{active}}">
+        <img src="portfolio/{{image}}" alt="{{name}}" style="width: auto; height: 500px; background-size: contain; margin: auto;">
+        <h4 style="color: black; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3); text-align: center;">{{caption}}</h4>
+      </div>
+      {{/each}}
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</script>
+
+<script id="t-skills" type="text/x-handlebars-template">
+  <img src="logos.png" style="width: 400px; height: auto; background-size: contain; margin: auto; float: right;">
+  <h1 style="color: black; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);" >{{subject}}</h1>
+  {{#each areas}}
+  <p>
+    <h3 style="color: black; margin: 10px 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h3>
+    <ul style="color: black; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
+      {{#each skills}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </p>
+  {{/each}}
+</script>
+
+<script id="t-contact" type="text/x-handlebars-template">
+  <img src="sociallogos.png" style="width: 400px; height: auto; background-size: contain; margin: auto; float: right;">
+    <h1 style="color: black; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
+    {{#each areas}}
+    <p>
+      <h3 style="color: black; margin: 10px 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h3>
+      <ul style="color: black; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
+        {{#each skills}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </p>
+    {{/each}}
+  </div>
+</script>
+
+<script>
+function displayHome() {
+  var source = document.getElementById('t-home').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    subject: 'ND Freelance',
+    areas: [{ title: 'My name is Narya. I am a Web and Graphic Designer who can provide the following:', skills: [
+        'Special Artwork for Printing',
+        'Website Design',
+        'Coporate Identity Design',
+        'Logo Design',
+        'Image Tracing',
+        'Flyer and Brochure Design',
+        'Poster Design',
+        'Catalog Design',
+        'Packaging Design',
+        'Banner Design',
+        'ETC.',
+    ]}, { title: 'Hope you enjoy ur visit here and find my portfolio engaging. Feel free to contact me for work.',
+}]
+  };
+
+  document.querySelector('.content').innerHTML = template(context);
+}
+</script>
+
+<script>
+function displayPortfolio() {
+  var source = document.getElementById('t-portfolio').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    subject: 'Portfolio',
+    images: [
+      'plate1.png',
+      'plate2.png',
+      'plate3.png',
+      'plate4.png',
+      'plate5.png',
+      'plate6.png',
+      'plate7.png',
+      'medal1.png',
+      'medal2.png',
+      'crystal1.png',
+      'poster.jpg',
+      'poster2.png',
+      'flyer.png',
+      'label1.png',
+      'label2.png',
+      'label3.jpg',
+      'web.png',
+      'cp1.jpg',
+      'cp2.jpg',
+      'banner.jpg',
+      'phoedit.jpg',
+      'logo1.png',
+      'logo2.png',
+      'logo3.png',
+      'logo4.png',
+      'photo1.png',
+      'photo2.png',
+      'photo3.png',
+      'photo4.png',
+      'photo5.png',
+      'photo6.png',
+    ]
+  };
+
+  document.querySelector('.content').innerHTML = template(context);
+}
+
+function toggleLightbox(nar) {
+  $(nar).ekkoLightbox();
+}
+</script>
+
+<script>
+function displayDefault() {
+  var source = document.getElementById('t-default').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    slides: [
+      { image: 'Photo1.png', name: 'Photograph', active: 'active', caption: 'Photograph', },
+      { image: 'poster2.png', name: 'Poster', caption: 'Poster', },
+      { image: 'logo1.png', name: 'Logo', caption: 'Logo', },
+      { image: 'cp2.jpg', name: 'Company Profile', caption: 'Company Profile', },
+      { image: 'web.png', name: 'Website', caption: 'Website', },
+      { image: 'plate4.png', name: 'Aluminium Plate', caption: 'Aluminium Plate', },
+      { image: 'flyer.png', name: 'Flyer', caption: 'Flyer', },
+
+    ]
+  }
+
+  document.querySelector('.content').innerHTML = template(context);
+
+    $('.carousel').carousel({
+      interval: 2000
+    })
+}
+</script>
+
+<script>
+function displaySkill() {
+  var source = document.getElementById('t-skills').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    subject: 'My Skills',
+    areas: [{ title: 'Graphic Design Software', skills: [
+        'Adobe Photoshop',
+        'Adobe Illustrator',
+        'Corel Draw',
+        'Adobe In-Design',
+    ]}, { title: 'Website Design Software', skills: [
+        'HTML5 basic',
+        'CSS3 basic',
+    ]}, { title: 'Office Management Software', skills: [
+        'Microsoft Office',
+    ]}]
+  };
+
+  document.querySelector('.content').innerHTML = template(context);
+}
+</script>
+
+<script>
+function displayContact() {
+  var source = document.getElementById('t-contact').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    subject: 'My Contact',
+    areas: [{ title: 'Malaysia: +6010 3872910', skills: [
+        'WeChat',
+        'WhatsApp',
+        'Imessage',
+    ]}, { title: 'Singapore: +65 8106 9500', skills: [
+      'WeChat',
+      'WhatsApp',
+      'Imessage',
+    ]}, { title: 'E-mail', skills: [
+        'naryaong@gmail.com',
+    ]}]
+  };
+  document.querySelector('.content').innerHTML = template(context);
+  }
+</script>
+
+
+<script>
+displayDefault();
+</script>
+
+
+<style>
+body {
+  background-color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  width: 100%;
+  height: 100px;
+  background-color: black;
+  margin-top: 30px;
+  padding: 0px 0px;
+  display: inline-block;
+}
+.innerheader {
+  font-size: 17px;
+  width: 80%px;
+  height: auto;
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  padding: 0px 0px;
+}
+  .home {
+    margin-right: 120px;
+    color: white;
+    font-weight: bolder;
+    display: inline-block;
+  }
+  .home:hover {
+  font-weight: bolder;
+  color: #f3e4b2;
+  cursor: pointer;
+  display: inline-block;
+}
+.home ul {
+  padding: 0;
+  margin: 0;
+}
+
+  .portfolio {
+    margin-right: 120px;
+    color: white;
+    font-weight: bolder;
+    display: inline-block;
+  }
+  .portfolio:hover {
+   font-weight: bolder;
+   color: #f3e4b2;
+   cursor: pointer;
+   display: inline-block;
+  }
+  .portfolio ul {
+   padding: 0;
+   margin: 0;
+  }
+  .portfolio-img {
+  width: 200px;
+  height: 200px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  margin: 2px 2px;
+}
+
+  .logo {
+    margin-right: 120px;
+    height: 100px;
+    width: 160px;
+    background-image: url('nd_logo.png');
+    background-repeat: no-repeat;
+    background-size: 150px auto;
+    background-position: center;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .logo:hover {
+   background-size: 152px auto;
+   display: inline-block;
+   cursor: pointer;
+}
+ .logo ul {
+   padding: 0;
+   margin: 0;
+ }
+
+  .skill {
+    margin-right: 120px;
+    color: white;
+    font-weight: bolder;
+    display: inline-block;
+  }
+  .skill:hover {
+   font-weight: bolder;
+   color: #f3e4b2;
+   cursor: pointer;
+   display: inline-block;
+  }
+  .skill ul {
+   padding: 0;
+   margin: 0;
+  }
+
+  .contact {
+   color: white;
+   font-weight: bolder;
+   display: inline-block;
+  }
+  .contact:hover {
+   font-weight: bolder;
+   color: #f3e4b2;
+   cursor: pointer;
+   display: inline-block;
+  }
+  .contact ul {
+   padding: 0;
+   margin: 0;
+  }
+
+  .content {
+    height: 600px;
+    width: 90%;
+    padding: 0px 0px;
+    margin: 0px auto;
+    font-family: serif;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: left;
+  }
+
+.main {
+  width: 80%;
+  height: 700px;
+  /*background-color: linen;*/
+  margin: 0 auto;
+  padding: 0px 0px;
+}
+
+</style>
