@@ -48,7 +48,7 @@
 
 <script id="t-portfolio" type="text/x-handlebars-template">
   <h1 style="color: black; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
-  <div style="width: 816px; ">
+  <div style="width: 816px; margin: 0 auto;">
     {{#each images}}
     <div class="portfolio-img" data-toggle="lightbox" data-remote="portfolio/{{this}}"
       onclick="toggleLightbox(this)" style="background-image: url('portfolio/{{this}}')"></div>
@@ -334,8 +334,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  display: inline-block;
-  vertical-align: middle;
   float: left;
   margin: 2px 2px;
 }
@@ -395,19 +393,17 @@ body {
   }
 
   .content {
-    height: 600px;
     width: 90%;
     padding: 0px 0px;
     margin: 0px auto;
     font-family: serif;
     font-size: 16px;
     font-weight: normal;
-    text-align: left;
+    text-align: center;
   }
 
 .main {
-  width: 80%;
-  height: 700px;
+  width: 90%;
   /*background-color: linen;*/
   margin: 0 auto;
   padding: 0px 0px;
